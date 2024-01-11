@@ -1,70 +1,92 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
 <head>
-<title>Les chaines</title>
+<title>Les Tableaux</title>
 </head>
 <body bgcolor=white>
-<h1>Exercices sur les chaines de charactères</h1>
+<h1>Exercices sur les tableaux</h1>
 <form action="#" method="post">
-    <p>Saisir une chaine (Du texte avec 6 caractères minimum) : <input type="text" id="inputValeur" name="chaine">
+    <p>Saisir au minimum 3 chiffres à la suite, exemple : 6 78 15 <input type="text" name="chaine">
     <p><input type="submit" value="Afficher">
 </form>
-<%-- Récupération des valeurs --%>
-    <% String chaine = request.getParameter("chaine"); %>
-    
-    <% if (chaine != null) { %>
+<%-- Récupération de la chaine saisie --%>
+<% String chaine = request.getParameter("chaine"); %>
 
-    <%-- Obtention de la longueur de la chaîne --%>
-    <% int longueurChaine = chaine.length(); %>
-    <p>La longueur de votre chaîne est de <%= longueurChaine %> caractères</p>
+<% if (chaine != null && !chaine.isEmpty()) { %>
+    <% String[] tableauDeChiffres = chaine.split("\\s+");
+       int[] valeurs = new int[tableauDeChiffres.length];
+       for (int i = 0; i < tableauDeChiffres.length; i++) {
+           valeurs[i] = Integer.parseInt(tableauDeChiffres[i]);
+       }
+    %>
+    <p>Le tableau contient <%= valeurs.length %> valeurs</br>
+    <% for (int i = 0; i < valeurs.length; i++) { %>
+        Chiffre <%= i + 1 %>: <%= valeurs[i] %></br>
+    <% } %>
 
-    <%-- Extraction du 3° caractère dans votre chaine --%>
-    <% char caractereExtrait = chaine.charAt(2); %>
-    <p>Le 3° caractère de votre chaine est la lettre <%= caractereExtrait %></p>
+    <h2>Exercice 1 : Le carré de la première valeur</h2>
+    <p>Carré de la première valeur : <%= valeurs[0] * valeurs[0] %></p>
 
-    <%-- Obtention d'une sous-chaîne --%>
-    <% String sousChaine = chaine.substring(2, 6); %>
-    <p>Une sous chaine de votre texte : <%= sousChaine %></p>
+    <h2>Exercice 2 : La somme des 2 premières valeurs</h2>
+    <p>Somme des deux premières valeurs : <%= valeurs[0] + valeurs[1] %></p>
 
-    <%-- Recharche de la lettre "e" --%>
-    <% char recherche = 'e'; 
-       int position = chaine.indexOf(recherche); %>
-    <p>Votre premier "e" est en : <%= position %></p>
+    <h2>Exercice 3 : La somme de toutes les valeurs</h2>
+    <p>
+    <% int somme = 0;
+       for (int valeur : valeurs) {
+           somme += valeur;
+       }
+    %>
+    Somme de toutes les valeurs : <%= somme %>
+    </p>
 
-    
-<h2>Exercice 1 : Combien de 'e' dans notre chaine de charactère ?</h2>
-<p>Ecrire un programme pour compter le nombre de lettre e dans votre chaine de charactères</p>
+    <h2>Exercice 4 : La valeur maximum</h2>
+    <p>
+    <% int max = valeurs[0];
+       for (int valeur : valeurs) {
+           if (valeur > max) {
+               max = valeur;
+           }
+       }
+    %>
+    Valeur maximale : <%= max %>
+    </p>
 
-<h2>Exercice 2 : Affichage verticale</h2>
-<p>Ecrire le programme pour afficher le texte en vertical</br>
-Exemple : Bonjour</br>
-B</br>
-o</br>
-n</br>
-j</br>
-o</br>
-u</br>
-r</p>
+    <h2>Exercice 5 : La valeur minimale</h2>
+    <p>
+    <% int min = valeurs[0];
+       for (int valeur : valeurs) {
+           if (valeur < min) {
+               min = valeur;
+           }
+       }
+    %>
+    Valeur minimale : <%= min %>
+    </p>
 
-<h2>Exercice 3 : Retour à la ligne</h2>
-<p>La présence d'un espace provoque un retour à la ligne </br>
-Exemple : L'hiver sera pluvieux</br>
-L'hiver</br>
-sera</br>
-pluvieux</p>
+    <h2>Exercice 6 : La valeur la plus proche de 0</h2>
+    <p>
+    <% int plusProcheDeZero = valeurs[0];
+       for (int valeur : valeurs) {
+           if (Math.abs(valeur) < Math.abs(plusProcheDeZero)) {
+               plusProcheDeZero = valeur;
+           }
+       }
+    %>
+    Valeur la plus proche de 0 : <%= plusProcheDeZero %>
+    </p>
 
-<h2>Exercice 4 : Afficher une lettre sur deux</h2>
-<p>Ecrire le programme pour afficher seulement une lettre sur deux de votre texte </br>
-Exemple : L'hiver sera pluvieux</br>
-Lhvrsr lvex</p>
-
-<h2>Exercice 5 : La phrase en verlant</h2>
-<p>Ecrire le programme afin d'afficher le texte en verlant </br>
-Exemple : L'hiver sera pluvieux</br>
-xueivulp ares revih'l</p>
-
-<h2>Exercice 6 : Consonnes et voyelles</h2>
-<p>Ecrire le programme afin de compter les consonnes et les voyelles dans votre texte</p>
+    <h2>Exercice 7 : La valeur la plus proche de 0</h2>
+    <p>
+    <% int plusProcheDeZeroV2 = valeurs[0];
+       for (int valeur : valeurs) {
+           if (Math.abs(valeur) < Math.abs(plusProcheDeZeroV2) || (Math.abs(valeur) == Math.abs(plusProcheDeZeroV2) && valeur > plusProcheDeZeroV2)) {
+               plusProcheDeZeroV2 = valeur;
+           }
+       }
+    %>
+    Valeur la plus proche de 0 : <%= plusProcheDeZeroV2 %>
+    </p>
 
 <% } %>
 <p><a href="index.html">Retour au sommaire</a></p>
